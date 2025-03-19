@@ -15,12 +15,27 @@ For text completions and embeddings, we are using the models provided by Google 
 ## Endpoints
 
 ### `index-url` endpoint
-
-![index-url endpoint](images/index_url_endpoint.png)
+```
+curl --request POST \
+  --url http://127.0.0.1:6000/index-url \
+  --header 'content-type: application/json' \
+  --data '{
+  "url": "https://en.wikipedia.org/wiki/Japan" 
+}'
+```
+![index_url endpoint](images/index_url_endpoint.jpeg)
 
 ### `ask` endpoint
-
-![ask endpoint](images/ask_endpoint.png)
+```
+curl --request POST \
+  --url http://127.0.0.1:6000/ask \
+  --header 'content-type: application/json' \
+  --data '{
+  "question": "whats the population of japan?",
+  "url": "https://en.wikipedia.org/wiki/Japan"
+}'
+```
+![ask endpoint](images/ask_endpoint.jpeg)
 
 # Running
 This project uses [uv](https://docs.astral.sh/uv/) for package managing, install it to run the following steps:
