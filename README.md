@@ -10,7 +10,7 @@ Embeddings are stored in memory using [ChromaDB](docs.trychroma.com) and are per
 
 Users are them able to have the LLM answer questions based on a URL. This is accomplished by filtering by URL and retrieving the relevant documents, we then use this information to enhance the prompt to the LLM. The prompt also has instructions to only answer based on the context, i.e., the information retrieved from the URL.
 
-For text completions and embeddings, we are using the models provided by Google ([gemini-2.0-flash-lite](https://ai.google.dev/gemini-api/docs/models#gemini-2.0-flash-lite) and [text-embedding-004](https://ai.google.dev/gemini-api/docs/models#text-embedding)), thus **running this project requires a Google API Key**.
+For text completions and embeddings, we are using the models provided by Google ([gemini-2.0-flash](https://ai.google.dev/gemini-api/docs/models#gemini-2.0-flash) and [text-embedding-004](https://ai.google.dev/gemini-api/docs/models#text-embedding)), thus **running this project requires a Google API Key**.
 
 ## Endpoints
 

@@ -4,9 +4,7 @@ import httpx
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_core.messages import BaseMessage
-from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnablePassthrough
 from langchain_google_genai import GoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -23,7 +21,7 @@ class RagPipeline:
         )
 
         self.llm = GoogleGenerativeAI(
-            model="gemini-2.0-flash-lite", api_key=settings.GOOGLE_API_KEY
+            model="gemini-2.0-flash", api_key=settings.GOOGLE_API_KEY
         )
 
         self.vector_store = Chroma(
@@ -93,8 +91,8 @@ class RagPipeline:
               that the answer is unknown.
             - The answer is limited to three sentences for brevity.
         """
-        retriever = self.vector_store.as_retriever(
-            search_kwargs={"filter": {"url": url}}
+        documents = await self.vector_store.asimilarity_search(
+            query=question, filter={"url": url}
         )
 
         template = """
@@ -112,15 +110,16 @@ class RagPipeline:
         Helpful Answer:
         """
 
-        prompt = PromptTemplate.from_template(
-            template, partial_variables={"chat_history": chat_history}
+        prompt = PromptTemplate.from_template(template)
+
+        message = await prompt.ainvoke(
+            {
+                "context": format_docs(documents),
+                "chat_history": chat_history,
+                "question": question,
+            }
         )
 
-        chain = (
-            {"context": retriever | format_docs, "question": RunnablePassthrough()}
-            | prompt
-            | self.llm
-            | StrOutputParser()
-        )
+        llm_response = await self.llm.ainvoke(message)
 
-        return await chain.ainvoke(question)
+        return llm_response
