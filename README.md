@@ -37,6 +37,17 @@ curl --request POST \
 ```
 ![ask endpoint](images/ask_endpoint.jpeg)
 
+### `delete-url` endpoint
+```
+curl --request DELETE \
+  --url http://127.0.0.1:6000/delete-url \
+  --header 'content-type: application/json' \
+  --data '{
+  "url": "https://en.wikipedia.org/wiki/Japan"
+}'
+```
+![ask endpoint](images/delete_url_endpoint.jpeg)
+
 # Running
 This project uses [uv](https://docs.astral.sh/uv/) for package managing, install it to run the following steps:
 - Install the required packages: `uv sync`.
